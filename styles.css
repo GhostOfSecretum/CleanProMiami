@@ -539,6 +539,45 @@ section { position: relative; }
   to { transform: translateX(-50%); }
 }
 
+/* Первый экран: тарифы + бегущая строка в viewport (маркиз без скролла страницы) */
+.home-hero-band {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+.home-hero-band > section.pricing.pricing--hero.section {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: calc(76px + env(safe-area-inset-top, 0px)) 0 16px;
+}
+.home-hero-band > section.pricing.pricing--hero .container {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.home-hero-band > section.pricing.pricing--hero .s-head {
+  flex-shrink: 0;
+  margin-bottom: 28px;
+}
+.home-hero-band > section.pricing.pricing--hero .pricing-grid {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 4px;
+  align-content: start;
+}
+.home-hero-band > .marquee {
+  flex-shrink: 0;
+}
+
 /* ============================================================
    Section heading
    ============================================================ */

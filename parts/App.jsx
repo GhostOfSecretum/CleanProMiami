@@ -130,8 +130,10 @@ const App = () => {
     <>
       <Topbar />
       <main>
-        <Pricing />
-        <Marquee />
+        <div className="home-hero-band">
+          <Pricing />
+          <Marquee />
+        </div>
         <Solution />
         <Process />
         <Checklist />
