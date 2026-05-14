@@ -610,7 +610,7 @@ section { position: relative; }
   transform: translateY(-8px);
 }
 .home-hero-band .price-card--featured:hover {
-  transform: translateY(-12px);
+  transform: translateY(-8px);
 }
 .home-hero-band > .marquee {
   flex-shrink: 0;
@@ -928,7 +928,9 @@ section.pricing.pricing--hero.section {
   transform: translateY(-12px);
   box-shadow: var(--shadow-pop);
 }
-.price-card--featured:hover { transform: translateY(-18px); }
+.price-card--featured:hover {
+  transform: translateY(-12px);
+}
 .price-card--featured .price-card__name,
 .price-card--featured .price-card__price .num { color: #fff; }
 .price-card--featured .price-card__price .cur { color: rgba(255,255,255,0.85); }
@@ -956,7 +958,7 @@ section.pricing.pricing--hero.section {
 @media (max-width: 960px) {
   .pricing-grid { grid-template-columns: 1fr; }
   .price-card--featured { transform: none; }
-  .price-card--featured:hover { transform: translateY(-6px); }
+  .price-card--featured:hover { transform: none; }
 }
 
 /* --- Slot picker (pricing cards) --- */
