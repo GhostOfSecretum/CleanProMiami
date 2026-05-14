@@ -757,11 +757,12 @@ section.pricing.pricing--hero.section {
   margin-bottom: 48px;
 }
 .pricing--hero .s-head h2 {
-  font-size: var(--fs-display);
+  font-size: clamp(1.85rem, 3.6vw, 3.15rem);
   font-weight: 700;
-  line-height: 1.05;
-  letter-spacing: -0.035em;
-  max-width: min(100%, 22ch);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  max-width: min(100%, 26rem);
+  text-wrap: balance;
 }
 .pricing--hero .s-head h2 .underline {
   position: relative;
