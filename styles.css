@@ -569,7 +569,7 @@ section { position: relative; }
 }
 .home-hero-band > section.pricing.pricing--hero .s-head h2 {
   max-width: none;
-  font-size: clamp(1.6rem, 3.1vw, 2.75rem);
+  font-size: clamp(1.45rem, 2.85vw, 2.55rem);
   line-height: 1.1;
 }
 .home-hero-band > section.pricing.pricing--hero .s-head h2 .underline::after {
@@ -947,6 +947,10 @@ section.pricing.pricing--hero.section {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   border-radius: var(--r-pill);
+}
+.price-card--featured .price-card__badge {
+  top: 12px;
+  right: 22px;
 }
 
 @media (max-width: 960px) {
