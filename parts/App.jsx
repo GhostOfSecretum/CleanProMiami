@@ -132,13 +132,11 @@ const App = () => {
       <main>
         <Pricing />
         <Marquee />
-        <Hero />
         <Solution />
         <Process />
         <Checklist />
         <Testimonials />
         <FAQ />
-        <CTABanner />
       </main>
       <Footer />
 
@@ -158,7 +156,7 @@ const App = () => {
             ]}
           />
         </TweakSection>
-        <TweakSection title="Hero">
+        <TweakSection title="Визуал">
           <TweakToggle
             label="Floating-карточки"
             value={tweaks.showFloatCards}

@@ -49,7 +49,7 @@ const Solution = () => (
             1–2 часа. Не подбираем «удобное окно дня» — у нас точное расписание.
           </p>
           <div style={{marginTop: "auto", paddingTop: "24px", display: "flex", gap: "8px", flexWrap: "wrap"}}>
-            {["09:00", "11:00", "13:00", "15:00", "17:00"].map((t,i) => (
+            {["09:00", "11:30", "14:00", "16:30"].map((t,i) => (
               <span key={i} style={{
                 padding: "8px 14px", borderRadius: "var(--r-pill)",
                 background: i === 2 ? "linear-gradient(135deg, var(--m-pink), var(--m-coral))" : "var(--bg-soft)",

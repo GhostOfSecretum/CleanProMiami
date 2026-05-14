@@ -1,56 +1,7 @@
-/* CTA banner + Footer */
-
-const CTABanner = () => {
-  const [name, setName] = React.useState("");
-  const [phone, setPhone] = React.useState("");
-  const [sent, setSent] = React.useState(false);
-  const submit = (e) => {
-    e.preventDefault();
-    setSent(true);
-    setTimeout(() => setSent(false), 3000);
-  };
-  return (
-    <section id="contact" className="section--tight">
-      <div className="container">
-        <div className="cta-banner" data-reveal>
-          <div style={{position: "relative", zIndex: 2}}>
-            <p className="eyebrow" style={{color: "rgba(255,255,255,0.85)"}}>Ближайший слот · завтра 10:00</p>
-            <h2 style={{marginTop: "12px"}}>Закажите уборку — приедем в фиксированный слот за 1.5 часа</h2>
-            <p>
-              Оставьте телефон — менеджер напишет в WhatsApp за 5 минут, подтвердит время и пришлёт точную
-              стоимость. Никаких звонков-роботов и спама.
-            </p>
-            <div style={{display: "flex", gap: "20px", marginTop: "28px", flexWrap: "wrap", fontFamily: "var(--font-display)", fontWeight: 500, fontSize: "0.92rem"}}>
-              <span>✦ Без предоплаты</span>
-              <span>✦ Гарантия 24 ч</span>
-              <span>✦ Русскоязычный сервис</span>
-            </div>
-          </div>
-
-          <form className="cta-banner__form" onSubmit={submit}>
-            {sent ? (
-              <div style={{textAlign: "center", padding: "20px", color: "#fff"}}>
-                <div style={{fontSize: "2.5rem", marginBottom: "10px"}}>✓</div>
-                <div style={{fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "1.05rem"}}>Заявка принята!</div>
-                <div style={{marginTop: "6px", fontSize: "0.88rem", opacity: 0.85}}>Напишем в WhatsApp за 5 минут</div>
-              </div>
-            ) : (
-              <>
-                <input type="text" placeholder="Ваше имя" value={name} onChange={e => setName(e.target.value)} required />
-                <input type="tel" placeholder="+7 (968) ___-__-__" value={phone} onChange={e => setPhone(e.target.value)} required />
-                <button type="submit">Получить слот →</button>
-                <div className="hint">Нажимая кнопку, вы соглашаетесь с условиями сервиса</div>
-              </>
-            )}
-          </form>
-        </div>
-      </div>
-    </section>
-  );
-};
+/* Footer */
 
 const Footer = () => (
-  <footer className="foot">
+  <footer id="contact" className="foot">
     <div className="container">
       <div className="foot-grid">
         <div className="foot__about">
@@ -81,7 +32,7 @@ const Footer = () => (
         <div className="foot__col">
           <h5>Компания</h5>
           <ul>
-            <li><a href="#intro">О нас</a></li>
+            <li><a href="#solution">О нас</a></li>
             <li><a href="#process">Как мы работаем</a></li>
             <li><a href="#checklist">Чек-лист</a></li>
             <li><a href="#">Карьера</a></li>
@@ -93,7 +44,7 @@ const Footer = () => (
           <ul>
             <li><a href="#">WhatsApp</a></li>
             <li><a href="#">Telegram</a></li>
-            <li><a href="tel:+79689608888">+7(968)960-88-88</a></li>
+            <li><a href="tel:+13054648888">+1(305)464-8888</a></li>
             <li><a href="#">hello@cleanpro.miami</a></li>
             <li><a href="#">Brickell · MIA</a></li>
           </ul>
@@ -110,4 +61,4 @@ const Footer = () => (
   </footer>
 );
 
-Object.assign(window, { CTABanner, Footer });
+Object.assign(window, { Footer });

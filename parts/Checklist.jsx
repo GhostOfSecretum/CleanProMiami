@@ -94,7 +94,7 @@ const Testimonials = () => {
       name: "Елена М.", meta: "Aventura · pent­house", a: "a3", initials: "ЕМ" },
   ];
   return (
-    <section className="section testimonials">
+    <section id="testimonials" className="section testimonials">
       <div className="container testimonials__layout">
         <div className="testimonials__head" data-reveal>
           <div className="s-head">

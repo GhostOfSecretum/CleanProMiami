@@ -1,4 +1,4 @@
-/* CleanPro — Hero, Topbar, Marquee */
+/* CleanPro — Topbar, Marquee, HeroPhoneVisual (для отзывов) */
 
 const BrandLogo = () => (
   <span className="brand__logo-wrap" aria-hidden="true">
@@ -26,11 +26,12 @@ const Topbar = () => {
           <a href="#prices">Цены</a>
           <a href="#process">Процесс</a>
           <a href="#checklist">Чек-лист</a>
+          <a href="#testimonials">Отзывы</a>
           <a href="#faq">FAQ</a>
         </nav>
         <div className="topbar__cta">
-          <a href="tel:+79689608888" className="topbar__phone">+7(968)960-88-88</a>
-          <a href="#contact" className="btn btn--primary" style={{padding: "12px 22px"}}>Заказать</a>
+          <a href="tel:+13054648888" className="topbar__phone">+1(305)464-8888</a>
+          <a href="#prices" className="btn btn--primary" style={{padding: "12px 22px"}}>Заказать</a>
         </div>
       </div>
     </header>
@@ -90,8 +91,7 @@ const HeroPhoneVisual = ({ className = "" } = {}) => (
             <div className="check">✓</div> Спальня — пыль, бельё
           </div>
           <div className="phone-list__row">
-            <div className="check" style={{background: "var(--m-pink)", color: "#fff"}}>•</div>
-            <span style={{color: "var(--m-pink)"}}>Контроль старшим…</span>
+            <div className="check">✓</div> Контроль старшим…
           </div>
         </div>
       </div>
@@ -123,51 +123,6 @@ const HeroPhoneVisual = ({ className = "" } = {}) => (
   </div>
 );
 
-const Hero = () => (
-  <section id="intro" className="hero">
-    <div className="container hero__grid">
-      <div data-reveal>
-        <div className="hero__eyebrow">
-          <span className="dot"></span>
-          <span>Принимаем заказы на эту неделю · Майами</span>
-        </div>
-        <h1 className="hero__title">
-          Идеальная чистота за <span className="underline">1–2 часа</span>.
-        </h1>
-        <p className="hero__sub">
-          CleanPro — клининг нового формата для квартир в Майами. Команда из 3 человек,
-          фиксированный тайм-слот, чек-лист на 40+ точек и фото до/после. Вы получаете
-          предсказуемый результат, а не «как получится».
-        </p>
-        <div className="hero__ctas">
-          <a href="#contact" className="btn btn--primary">Забронировать слот →</a>
-          <a href="#process" className="btn btn--ghost">Как мы убираем</a>
-        </div>
-        <div className="hero__stats">
-          <div className="hero__stat">
-            <div className="num">1–2 ч</div>
-            <div className="label">Время уборки</div>
-          </div>
-          <div className="hero__stat">
-            <div className="num">40+</div>
-            <div className="label">Точек контроля</div>
-          </div>
-          <div className="hero__stat">
-            <div className="num">3</div>
-            <div className="label">Клинера на объект</div>
-          </div>
-          <div className="hero__stat">
-            <div className="num">4.9★</div>
-            <div className="label">Рейтинг 320+ отзывов</div>
-          </div>
-        </div>
-      </div>
-
-      <HeroPhoneVisual />
-    </div>
-  </section>
-);
-
 const Marquee = () => {
   const items = [
     { t: "Brickell" }, { t: "Edgewater" }, { t: "Wynwood" }, { t: "Mid-Beach" },
@@ -189,4 +144,4 @@ const Marquee = () => {
   );
 };
 
-Object.assign(window, { Topbar, Hero, HeroPhoneVisual, Marquee, BrandLogo });
+Object.assign(window, { Topbar, HeroPhoneVisual, Marquee, BrandLogo });
