@@ -9,7 +9,7 @@ const PALETTES = {
   miami:  { pink: "#ff5e9c", coral: "#ff7a59", sunset: "#ffb347", aqua: "#6ee2d8", turq: "#2ec4c4", lemon: "#ffe066", navy: "#1a2b4a", ink: "#2a1a3e", deep: "#0f1d36", bg: "#fff7ee", soft: "#ffeede" },
   sunset: { pink: "#ff4f7a", coral: "#ff6b3d", sunset: "#ffa552", aqua: "#ffd089", turq: "#ff8a5c", lemon: "#ffd9a8", navy: "#2a1830", ink: "#3d2048", deep: "#241338", bg: "#fff3ed", soft: "#ffe5d3" },
   ocean:  { pink: "#3aa9ff", coral: "#26d6c4", sunset: "#7eecd1", aqua: "#a8f0e5", turq: "#1e8fb8", lemon: "#c8ecff", navy: "#0a1d36", ink: "#152a42", deep: "#0a1d36", bg: "#f0f8ff", soft: "#dff0fa" },
-  neon:   { pink: "#ff2d95", coral: "#ff5fb5", sunset: "#ffb800", aqua: "#00f0c8", turq: "#00b8a4", lemon: "#ffe566", navy: "#1a0d2e", ink: "#2d1548", deep: "#1a0d2e", bg: "#fdf7ff", soft: "#f5e8ff" },
+  neon:   { pink: "#ff2d95", coral: "#ff5fb5", sunset: "#ffb800", aqua: "#00f0c8", turq: "#00b8a4", lemon: "#ffe566", navy: "#12081f", ink: "#1e0f32", deep: "#0a0514", bg: "#0a0612", soft: "#120a1e" },
 };
 
 const PALETTE_BY_PINK = { "#ff5e9c": "miami", "#ff4f7a": "sunset", "#3aa9ff": "ocean", "#ff2d95": "neon" };
@@ -79,8 +79,27 @@ const App = () => {
     r.style.setProperty("--m-deep", p.deep);
     r.style.setProperty("--bg-base", p.bg);
     r.style.setProperty("--bg-soft", p.soft);
-    r.style.setProperty("--text-main", "#1a2b4a");
-    r.style.setProperty("--text-soft", "#4a5b7a");
+
+    const isNeonDark = tweaks.palette === "neon";
+    if (isNeonDark) {
+      r.style.setProperty("--text-main", "#f3eeff");
+      r.style.setProperty("--text-soft", "rgba(243, 238, 255, 0.78)");
+      r.style.setProperty("--text-muted", "rgba(243, 238, 255, 0.5)");
+      r.style.setProperty("--bg-card", "rgba(255, 255, 255, 0.06)");
+      r.style.setProperty("--surface-raised", "rgba(255, 255, 255, 0.07)");
+      r.style.setProperty("--line", "rgba(255, 255, 255, 0.1)");
+      r.style.setProperty("--line-strong", "rgba(255, 255, 255, 0.18)");
+      r.style.setProperty("color-scheme", "dark");
+    } else {
+      r.style.setProperty("--text-main", "#1a2b4a");
+      r.style.setProperty("--text-soft", "#4a5b7a");
+      r.style.setProperty("--text-muted", "#7d8aa3");
+      r.style.setProperty("--bg-card", "#ffffff");
+      r.style.setProperty("--surface-raised", "#ffffff");
+      r.style.setProperty("--line", "rgba(26, 43, 74, 0.08)");
+      r.style.setProperty("--line-strong", "rgba(26, 43, 74, 0.16)");
+      r.style.removeProperty("color-scheme");
+    }
   }, [tweaks.palette]);
 
   React.useEffect(() => {
@@ -111,11 +130,11 @@ const App = () => {
     <>
       <Topbar />
       <main>
+        <Pricing />
         <Hero />
         <Marquee />
         <Problems />
         <Solution />
-        <Pricing tweaks={tweaks} />
         <Process />
         <Checklist />
         <Testimonials />

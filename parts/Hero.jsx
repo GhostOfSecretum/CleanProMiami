@@ -17,7 +17,7 @@ const Topbar = () => {
   return (
     <header className={"topbar" + (scrolled ? " scrolled" : "")}>
       <div className="container topbar__inner">
-        <a href="#top" className="brand">
+        <a href="#prices" className="brand">
           <BrandLogo />
           <span>CleanPro <span style={{color: "var(--m-pink)"}}>Miami</span></span>
         </a>
@@ -30,7 +30,7 @@ const Topbar = () => {
           <a href="#faq">FAQ</a>
         </nav>
         <div className="topbar__cta">
-          <span className="topbar__phone">+1 (305) 555-0142</span>
+          <a href="tel:+79689608888" className="topbar__phone">+7(968)960-88-88</a>
           <a href="#contact" className="btn btn--primary" style={{padding: "12px 22px"}}>Заказать</a>
         </div>
       </div>
@@ -39,7 +39,7 @@ const Topbar = () => {
 };
 
 const Hero = () => (
-  <section id="top" className="hero">
+  <section id="intro" className="hero">
     <div className="container hero__grid">
       <div data-reveal>
         <div className="hero__eyebrow">
@@ -104,7 +104,7 @@ const Hero = () => (
             <div className="phone-row">
               <div className="phone-pill">
                 <div className="icon pink">⚡</div>
-                Express
+                Standard
               </div>
               <div className="phone-pill">
                 <div className="icon aqua">🪟</div>

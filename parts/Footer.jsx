@@ -37,7 +37,7 @@ const CTABanner = () => {
             ) : (
               <>
                 <input type="text" placeholder="Ваше имя" value={name} onChange={e => setName(e.target.value)} required />
-                <input type="tel" placeholder="+1 (305) ___-____" value={phone} onChange={e => setPhone(e.target.value)} required />
+                <input type="tel" placeholder="+7 (968) ___-__-__" value={phone} onChange={e => setPhone(e.target.value)} required />
                 <button type="submit">Получить слот →</button>
                 <div className="hint">Нажимая кнопку, вы соглашаетесь с условиями сервиса</div>
               </>
@@ -93,7 +93,7 @@ const Footer = () => (
           <ul>
             <li><a href="#">WhatsApp</a></li>
             <li><a href="#">Telegram</a></li>
-            <li><a href="#">+1 (305) 555-0142</a></li>
+            <li><a href="tel:+79689608888">+7(968)960-88-88</a></li>
             <li><a href="#">hello@cleanpro.miami</a></li>
             <li><a href="#">Brickell · MIA</a></li>
           </ul>
