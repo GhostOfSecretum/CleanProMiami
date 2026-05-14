@@ -207,7 +207,8 @@ const Pricing = () => {
         <div className="s-head" data-reveal>
           <div>
             <h2>
-              Идеальная чистота за <span className="underline">2 часа</span>.
+              Идеальная чистота за<br />
+              <span className="underline">2 часа</span>.
             </h2>
           </div>
           <p className="s-head__right hero__sub">
