@@ -81,7 +81,7 @@ const Footer = () => (
         <div className="foot__col">
           <h5>Компания</h5>
           <ul>
-            <li><a href="#problem">О нас</a></li>
+            <li><a href="#intro">О нас</a></li>
             <li><a href="#process">Как мы работаем</a></li>
             <li><a href="#checklist">Чек-лист</a></li>
             <li><a href="#">Карьера</a></li>

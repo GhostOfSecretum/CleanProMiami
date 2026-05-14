@@ -22,7 +22,6 @@ const Topbar = () => {
           <span>CleanPro <span style={{color: "var(--m-pink)"}}>Miami</span></span>
         </a>
         <nav className="nav">
-          <a href="#problem">Проблема</a>
           <a href="#solution">Решение</a>
           <a href="#prices">Цены</a>
           <a href="#process">Процесс</a>
@@ -37,6 +36,92 @@ const Topbar = () => {
     </header>
   );
 };
+
+const HeroPhoneVisual = ({ className = "" } = {}) => (
+  <div className={"hero__visual" + (className ? " " + className : "")} data-reveal>
+    <div className="hero__shape">
+      <div className="hero__blob"></div>
+    </div>
+
+    <div className="hero__phone">
+      <div className="phone-screen">
+        <div className="phone-header">
+          <div className="greet">
+            Привет, Анна
+            <small>Сегодня · 14:30</small>
+          </div>
+          <div className="avatar"></div>
+        </div>
+
+        <div className="phone-card__hero">
+          <h4>Команда уже в пути</h4>
+          <p>3 клинера · приедут к 15:00 · 2-bed condo</p>
+          <span className="price">Слот · 1.5 часа</span>
+          <div className="bubble"></div>
+        </div>
+
+        <div className="phone-row">
+          <div className="phone-pill">
+            <div className="icon pink">⚡</div>
+            Standard
+          </div>
+          <div className="phone-pill">
+            <div className="icon aqua">🪟</div>
+            Окна
+          </div>
+          <div className="phone-pill">
+            <div className="icon sun">🛏️</div>
+            Бельё
+          </div>
+        </div>
+
+        <div className="phone-list">
+          <div className="phone-list__head">
+            <span>Чек-лист сегодня</span>
+            <span className="more">42 точки</span>
+          </div>
+          <div className="phone-list__row">
+            <div className="check">✓</div> Кухня — техника, фасады
+          </div>
+          <div className="phone-list__row">
+            <div className="check">✓</div> Ванная — стекло, плитка
+          </div>
+          <div className="phone-list__row">
+            <div className="check">✓</div> Спальня — пыль, бельё
+          </div>
+          <div className="phone-list__row">
+            <div className="check" style={{background: "var(--m-pink)", color: "#fff"}}>•</div>
+            <span style={{color: "var(--m-pink)"}}>Контроль старшим…</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div className="float-card float-card--rating">
+      <div className="ic" style={{background: "linear-gradient(135deg, var(--m-sunset), var(--m-lemon))", color: "var(--m-deep)"}}>★</div>
+      <div>
+        <div className="label">Рейтинг команды</div>
+        <div className="value">4.9 · 327 отз.</div>
+      </div>
+    </div>
+
+    <div className="float-card float-card--booking">
+      <div className="ic" style={{background: "linear-gradient(135deg, var(--m-aqua), var(--m-turquoise))", color: "var(--m-deep)"}}>📅</div>
+      <div>
+        <div className="label">Ближайший слот</div>
+        <div className="value">Завтра, 10:00</div>
+      </div>
+    </div>
+
+    <div className="float-card float-card--time">
+      <div className="ic" style={{background: "linear-gradient(135deg, var(--m-pink), var(--m-coral))"}}>⏱</div>
+      <div>
+        <div className="label">Среднее время</div>
+        <div className="value">1 ч 38 мин</div>
+      </div>
+    </div>
+  </div>
+);
 
 const Hero = () => (
   <section id="intro" className="hero">
@@ -78,90 +163,7 @@ const Hero = () => (
         </div>
       </div>
 
-      {/* Visual: phone mock + floating cards */}
-      <div className="hero__visual" data-reveal>
-        <div className="hero__shape">
-          <div className="hero__blob"></div>
-        </div>
-
-        <div className="hero__phone">
-          <div className="phone-screen">
-            <div className="phone-header">
-              <div className="greet">
-                Привет, Анна
-                <small>Сегодня · 14:30</small>
-              </div>
-              <div className="avatar"></div>
-            </div>
-
-            <div className="phone-card__hero">
-              <h4>Команда уже в пути</h4>
-              <p>3 клинера · приедут к 15:00 · 2-bed condo</p>
-              <span className="price">Слот · 1.5 часа</span>
-              <div className="bubble"></div>
-            </div>
-
-            <div className="phone-row">
-              <div className="phone-pill">
-                <div className="icon pink">⚡</div>
-                Standard
-              </div>
-              <div className="phone-pill">
-                <div className="icon aqua">🪟</div>
-                Окна
-              </div>
-              <div className="phone-pill">
-                <div className="icon sun">🛏️</div>
-                Бельё
-              </div>
-            </div>
-
-            <div className="phone-list">
-              <div className="phone-list__head">
-                <span>Чек-лист сегодня</span>
-                <span className="more">42 точки</span>
-              </div>
-              <div className="phone-list__row">
-                <div className="check">✓</div> Кухня — техника, фасады
-              </div>
-              <div className="phone-list__row">
-                <div className="check">✓</div> Ванная — стекло, плитка
-              </div>
-              <div className="phone-list__row">
-                <div className="check">✓</div> Спальня — пыль, бельё
-              </div>
-              <div className="phone-list__row">
-                <div className="check" style={{background: "var(--m-pink)", color: "#fff"}}>•</div>
-                <span style={{color: "var(--m-pink)"}}>Контроль старшим…</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="float-card float-card--rating">
-          <div className="ic" style={{background: "linear-gradient(135deg, var(--m-sunset), var(--m-lemon))", color: "var(--m-deep)"}}>★</div>
-          <div>
-            <div className="label">Рейтинг команды</div>
-            <div className="value">4.9 · 327 отз.</div>
-          </div>
-        </div>
-
-        <div className="float-card float-card--booking">
-          <div className="ic" style={{background: "linear-gradient(135deg, var(--m-aqua), var(--m-turquoise))", color: "var(--m-deep)"}}>📅</div>
-          <div>
-            <div className="label">Ближайший слот</div>
-            <div className="value">Завтра, 10:00</div>
-          </div>
-        </div>
-
-        <div className="float-card float-card--time">
-          <div className="ic" style={{background: "linear-gradient(135deg, var(--m-pink), var(--m-coral))"}}>⏱</div>
-          <div>
-            <div className="label">Среднее время</div>
-            <div className="value">1 ч 38 мин</div>
-          </div>
-        </div>
-      </div>
+      <HeroPhoneVisual />
     </div>
   </section>
 );
@@ -187,4 +189,4 @@ const Marquee = () => {
   );
 };
 
-Object.assign(window, { Topbar, Hero, Marquee, BrandLogo });
+Object.assign(window, { Topbar, Hero, HeroPhoneVisual, Marquee, BrandLogo });

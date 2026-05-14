@@ -86,40 +86,45 @@ const Checklist = () => {
 
 const Testimonials = () => {
   const items = [
-    { stars: 5, q: "Сначала не верила, что за 1.5 часа три человека успеют всё. Успели. И ещё фото отчитались — впервые видела такое в Майами.",
+    { stars: 5, q: "За 1.5 часа трое всё успели — не верила, пока не увидела. Фото до/после по зонам, в Майами такое редкость.",
       name: "Анна К.", meta: "Brickell · 2-bed condo", a: "a1", initials: "АК" },
-    { stars: 5, q: "Заказывали после переезда — квартира выглядела как после ремонта. CleanPro вернули её в состояние «можно жить». Всё чётко, в WhatsApp.",
+    { stars: 5, q: "После переезда было «как после ремонта». За день привели к «можно жить» — всё согласовано в WhatsApp.",
       name: "Дмитрий В.", meta: "Sunny Isles · 3-bed", a: "a2", initials: "ДВ" },
-    { stars: 5, q: "Подписка на еженедельную уборку — лучшее решение этого года. Слот всегда в одно время, команда уже знает мои нюансы. Минус одна забота.",
+    { stars: 5, q: "Подписка раз в неделю — слот в одно время, та же команда, мои нюансы уже не объясняю. Очень экономит голову.",
       name: "Елена М.", meta: "Aventura · pent­house", a: "a3", initials: "ЕМ" },
   ];
   return (
     <section className="section testimonials">
-      <div className="container">
-        <div className="s-head" data-reveal>
-          <div>
-            <p className="eyebrow">Отзывы</p>
-            <h2>Клиенты возвращаются — и приводят соседей</h2>
+      <div className="container testimonials__layout">
+        <div className="testimonials__head" data-reveal>
+          <div className="s-head">
+            <div>
+              <p className="eyebrow">Отзывы</p>
+              <h2>Клиенты возвращаются — и приводят соседей</h2>
+            </div>
+            <p className="s-head__right">
+              4.9 из 5 на основе 327 отзывов. 68% клиентов переходят на подписку после первой уборки.
+              Мы работаем в Майами с 2023 года и обслужили 4200+ квартир.
+            </p>
           </div>
-          <p className="s-head__right">
-            4.9 из 5 на основе 327 отзывов. 68% клиентов переходят на подписку после первой уборки.
-            Мы работаем в Майами с 2023 года и обслужили 4200+ квартир.
-          </p>
         </div>
-        <div className="testimonials-grid">
-          {items.map((t, i) => (
-            <div className="testimonial" key={i} data-reveal>
-              <div className="stars">{"★".repeat(t.stars)}</div>
-              <p className="quote">«{t.q}»</p>
-              <div className="author">
-                <div className={"avatar " + t.a}>{t.initials}</div>
-                <div>
-                  <div className="name">{t.name}</div>
-                  <div className="meta">{t.meta}</div>
+        <div className="testimonials__body">
+          <div className="testimonials-grid">
+            {items.map((t, i) => (
+              <div className="testimonial" key={i} data-reveal>
+                <div className="stars">{"★".repeat(t.stars)}</div>
+                <p className="quote">«{t.q}»</p>
+                <div className="author">
+                  <div className={"avatar " + t.a}>{t.initials}</div>
+                  <div>
+                    <div className="name">{t.name}</div>
+                    <div className="meta">{t.meta}</div>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+          <HeroPhoneVisual className="testimonials__visual" />
         </div>
       </div>
     </section>

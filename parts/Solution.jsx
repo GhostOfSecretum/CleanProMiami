@@ -1,49 +1,4 @@
-/* Problems & Solution sections */
-
-const Problems = () => {
-  const items = [
-    { n: "01", icon: "⏱", t: "Уборка длится 3–5 часов",
-      d: "Стандартный клинер задерживается, планы на день летят. Слот «когда-то после обеда» — уже норма." },
-    { n: "02", icon: "❓", t: "Нет четкого результата",
-      d: "Один раз помыли хорошо, второй — мимо. Чек-листа нет, что именно сделают — непонятно." },
-    { n: "03", icon: "👥", t: "Разный уровень исполнителей",
-      d: "Сегодня приехала аккуратная Мария, завтра — кто-то впервые. Качество — лотерея." },
-    { n: "04", icon: "💬", t: "Неудобная коммуникация",
-      d: "Звонки, путаница в адресах, оплата наличными. Хочется заказать в один клик — не получается." },
-    { n: "05", icon: "📦", t: "Каждая услуга — отдельный сервис",
-      d: "Окна — один контакт, химчистка дивана — другой, мытьё после ремонта — третий. Голова болит." },
-    { n: "06", icon: "🔒", t: "Низкий уровень доверия",
-      d: "Кто эти люди? Откуда? Что будет, если разобьют? Гарантий нет, отзывы — анонимные." },
-  ];
-
-  return (
-    <section id="problem" className="section problems">
-      <div className="container">
-        <div className="s-head" data-reveal>
-          <div>
-            <p className="eyebrow">Текущая ситуация</p>
-            <h2>Рынок клининга в Майами — фрагментирован</h2>
-          </div>
-          <p className="s-head__right">
-            Частных клинеров много, сервисов — еще больше. Но стандарта качества нет.
-            Мы поговорили с 200+ клиентами — вот их боли, которые повторяются от заказа к заказу.
-          </p>
-        </div>
-
-        <div className="problems-grid">
-          {items.map((it, i) => (
-            <div className={"problem" + (i === 5 ? " problem--strike" : "")} key={i} data-reveal>
-              <div className="num">{it.n}</div>
-              <div className="ic-circle">{it.icon}</div>
-              <h3>{it.t}</h3>
-              <p>{it.d}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
+/* Solution section */
 
 const Solution = () => (
   <section id="solution" className="section">
@@ -140,4 +95,4 @@ const Solution = () => (
   </section>
 );
 
-Object.assign(window, { Problems, Solution });
+Object.assign(window, { Solution });

@@ -131,9 +131,8 @@ const App = () => {
       <Topbar />
       <main>
         <Pricing />
-        <Hero />
         <Marquee />
-        <Problems />
+        <Hero />
         <Solution />
         <Process />
         <Checklist />

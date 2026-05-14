@@ -3,38 +3,35 @@
 const PRICING_TIERS = [
   {
     name: "Standard",
-    desc: "До 60 м². Для квартир-студий и одной спальни.",
-    price: 129,
-    time: "1 час",
-    featured: false,
+    price: 160,
+    featured: true,
+    badge: "Хит",
   },
   {
     name: "General",
-    desc: "До 110 м². Самый популярный формат для семей и пар.",
-    price: 189,
-    time: "1.5 часа",
-    featured: true,
-    badge: "Хит",
+    price: 280,
+    featured: false,
   },
 ];
 
 const DISTRICTS = [
-  { id: "brickell", label: "Brickell" },
-  { id: "edgewater", label: "Edgewater" },
-  { id: "wynwood", label: "Wynwood" },
-  { id: "mid-beach", label: "Mid-Beach" },
-  { id: "south-beach", label: "South Beach" },
   { id: "sunny-isles", label: "Sunny Isles" },
   { id: "aventura", label: "Aventura" },
-  { id: "coral-gables", label: "Coral Gables" },
+  { id: "hallandale", label: "Hallandale Beach" },
+  { id: "hollywood", label: "Hollywood" },
 ];
 
 const BED_OPTIONS = [
-  { id: "1", label: "1 bed" },
-  { id: "2", label: "2 bed" },
-  { id: "3", label: "3 bed" },
-  { id: "3plus", label: "3+ bed" },
+  { id: "1", label: "1 bed", addOn: 0 },
+  { id: "2", label: "2 bed", addOn: 80 },
+  { id: "3", label: "3 bed", addOn: 200 },
+  { id: "3plus", label: "3+ bed", addOn: 280 },
 ];
+
+function bedAddOn(bedId) {
+  if (!bedId) return 0;
+  return BED_OPTIONS.find((b) => b.id === bedId)?.addOn ?? 0;
+}
 
 const TIME_SLOTS = [
   { id: "09:00", label: "09:00" },
@@ -61,6 +58,13 @@ function sumExtras(extras) {
   return EXTRA_SERVICES.reduce((s, e) => (extras[e.id] ? s + e.price : s), 0);
 }
 
+function summarizeExtras(extras) {
+  const sum = sumExtras(extras);
+  const count = EXTRA_SERVICES.filter((e) => extras[e.id]).length;
+  if (count === 0) return "Не выбраны";
+  return `${count} шт. · +$${sum}`;
+}
+
 function formatMoney(n) {
   return `$${n}`;
 }
@@ -68,6 +72,9 @@ function formatMoney(n) {
 const Pricing = () => {
   const [selections, setSelections] = React.useState(() =>
     PRICING_TIERS.map(() => emptySlotSelection())
+  );
+  const [openSlotGroup, setOpenSlotGroup] = React.useState(() =>
+    PRICING_TIERS.map(() => null)
   );
   const [cardErrors, setCardErrors] = React.useState(() => PRICING_TIERS.map(() => ""));
   const [modal, setModal] = React.useState(null);
@@ -79,6 +86,22 @@ const Pricing = () => {
     phone: "",
   });
   const [modalError, setModalError] = React.useState("");
+
+  const toggleSlotPanel = React.useCallback((tierIndex, groupId) => {
+    setOpenSlotGroup((prev) => {
+      const next = [...prev];
+      next[tierIndex] = prev[tierIndex] === groupId ? null : groupId;
+      return next;
+    });
+  }, []);
+
+  const closeSlotPanel = React.useCallback((tierIndex) => {
+    setOpenSlotGroup((prev) => {
+      const next = [...prev];
+      next[tierIndex] = null;
+      return next;
+    });
+  }, []);
 
   const setSel = React.useCallback((tierIndex, patch) => {
     setSelections((prev) => {
@@ -93,6 +116,14 @@ const Pricing = () => {
     });
   }, []);
 
+  const pickDistrict = React.useCallback(
+    (tierIndex, id) => {
+      setSel(tierIndex, { district: id });
+      closeSlotPanel(tierIndex);
+    },
+    [setSel, closeSlotPanel]
+  );
+
   const toggleExtra = React.useCallback((tierIndex, id) => {
     setSelections((prev) => {
       const next = [...prev];
@@ -100,6 +131,11 @@ const Pricing = () => {
       if (ex[id]) delete ex[id];
       else ex[id] = true;
       next[tierIndex] = { ...next[tierIndex], extras: ex };
+      return next;
+    });
+    setCardErrors((prev) => {
+      const next = [...prev];
+      next[tierIndex] = "";
       return next;
     });
   }, []);
@@ -114,14 +150,19 @@ const Pricing = () => {
     if (!modal) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    const onKey = (e) => {
-      if (e.key === "Escape") closeModal();
-    };
-    window.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = prev;
-      window.removeEventListener("keydown", onKey);
     };
+  }, [modal]);
+
+  React.useEffect(() => {
+    const onKey = (e) => {
+      if (e.key !== "Escape") return;
+      if (modal) closeModal();
+      else setOpenSlotGroup(PRICING_TIERS.map(() => null));
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, [modal, closeModal]);
 
   const openBooking = (tierIndex) => {
@@ -137,6 +178,7 @@ const Pricing = () => {
     setModal({ tierIndex });
     setModalStep(1);
     setModalError("");
+    setOpenSlotGroup(PRICING_TIERS.map(() => null));
   };
 
   const goToPaymentStep = () => {
@@ -152,7 +194,9 @@ const Pricing = () => {
   const activeTier = modal != null ? PRICING_TIERS[modal.tierIndex] : null;
   const activeSel = modal != null ? selections[modal.tierIndex] : null;
   const activeExtrasSum = modal != null ? sumExtras(activeSel.extras) : 0;
-  const activeTotal = modal != null ? activeTier.price + activeExtrasSum : 0;
+  const activeBedAdd = modal != null ? bedAddOn(activeSel.beds) : 0;
+  const activeTotal =
+    modal != null ? activeTier.price + activeBedAdd + activeExtrasSum : 0;
 
   const districtLabel = (id) => DISTRICTS.find((d) => d.id === id)?.label || id;
   const bedLabel = (id) => BED_OPTIONS.find((b) => b.id === id)?.label || id;
@@ -162,20 +206,21 @@ const Pricing = () => {
       <div className="container">
         <div className="s-head" data-reveal>
           <div>
-            <p className="eyebrow">Тарифы</p>
-            <h2>Прозрачные цены без скрытых доплат</h2>
+            <h2>
+              Идеальная чистота за <span className="underline">1–2 часа</span>.
+            </h2>
           </div>
-          <p className="s-head__right">
-            Цена зависит только от площади квартиры. Химия, инвентарь, выезд команды и контроль качества —
-            уже включены. Скидка 15% на повторные уборки по подписке.
+          <p className="s-head__right hero__sub">
+            CleanPro — клининг нового формата для квартир в Майами. Команда из 3 человек,
+            фиксированный тайм-слот, чек-лист на 40+ точек и фото до/после. Вы получаете
+            предсказуемый результат, а не «как получится».
           </p>
         </div>
 
         <div className="pricing-grid">
           {PRICING_TIERS.map((t, i) => {
             const s = selections[i];
-            const extraSum = sumExtras(s.extras);
-            const total = t.price + extraSum;
+            const open = openSlotGroup[i];
             return (
               <div
                 className={"price-card" + (t.featured ? " price-card--featured" : "")}
@@ -184,55 +229,14 @@ const Pricing = () => {
               >
                 {t.badge && <div className="price-card__badge">{t.badge}</div>}
                 <div className="price-card__name">{t.name}</div>
-                <div className="price-card__desc">{t.desc}</div>
                 <div className="price-card__price">
                   <span className="cur">$</span>
-                  <span className="num">{total}</span>
-                  <span className="per">/ {t.time}</span>
+                  <span className="num">{t.price}</span>
                 </div>
-                {extraSum > 0 && (
-                  <p className="price-card__price-note">
-                    База ${t.price} + доп. ${extraSum}
-                  </p>
-                )}
 
                 <div className="slot-picker">
-                  <div className="slot-picker__group">
-                    <div className="slot-picker__legend">Район</div>
-                    <div className="slot-picker__opts slot-picker__opts--scroll">
-                      {DISTRICTS.map((d) => (
-                        <label key={d.id} className="slot-opt">
-                          <input
-                            type="radio"
-                            name={`district-${i}`}
-                            checked={s.district === d.id}
-                            onChange={() => setSel(i, { district: d.id })}
-                          />
-                          <span>{d.label}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="slot-picker__group">
-                    <div className="slot-picker__legend">Размер кв.</div>
-                    <div className="slot-picker__opts slot-picker__opts--row">
-                      {BED_OPTIONS.map((b) => (
-                        <label key={b.id} className="slot-opt slot-opt--compact">
-                          <input
-                            type="radio"
-                            name={`beds-${i}`}
-                            checked={s.beds === b.id}
-                            onChange={() => setSel(i, { beds: b.id })}
-                          />
-                          <span>{b.label}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="slot-picker__group">
-                    <div className="slot-picker__legend">Тайм-слот</div>
+                  <div className="slot-picker__group slot-picker__group--inline">
+                    <div className="slot-picker__legend-inline">Тайм-слот</div>
                     <div className="slot-picker__opts slot-picker__opts--row">
                       {TIME_SLOTS.map((tm) => (
                         <label key={tm.id} className="slot-opt slot-opt--compact">
@@ -248,21 +252,113 @@ const Pricing = () => {
                     </div>
                   </div>
 
-                  <div className="slot-picker__group">
-                    <div className="slot-picker__legend">Доп. услуги</div>
-                    <div className="slot-picker__opts slot-picker__opts--stack">
-                      {EXTRA_SERVICES.map((ex) => (
-                        <label key={ex.id} className="slot-opt slot-opt--extra">
+                  <div className="slot-picker__group slot-picker__group--inline">
+                    <div className="slot-picker__legend-inline">Размер кв.</div>
+                    <div className="slot-picker__opts slot-picker__opts--row">
+                      {BED_OPTIONS.map((b) => (
+                        <label key={b.id} className="slot-opt slot-opt--compact slot-opt--bed">
                           <input
-                            type="checkbox"
-                            checked={!!s.extras[ex.id]}
-                            onChange={() => toggleExtra(i, ex.id)}
+                            type="radio"
+                            name={`beds-${i}`}
+                            checked={s.beds === b.id}
+                            onChange={() => setSel(i, { beds: b.id })}
                           />
-                          <span className="slot-opt__label-text">{ex.label}</span>
-                          <span className="slot-opt__price">+${ex.price}</span>
+                          <span className="slot-opt__label-text">{b.label}</span>
+                          <span className="slot-opt__price">{b.addOn === 0 ? "+0" : `+$${b.addOn}`}</span>
                         </label>
                       ))}
                     </div>
+                  </div>
+
+                  <div className={"slot-picker__group" + (open === "district" ? " is-open" : "")}>
+                    <button
+                      type="button"
+                      className="slot-picker__trigger"
+                      aria-expanded={open === "district"}
+                      aria-controls={`slot-panel-district-${i}`}
+                      id={`slot-trigger-district-${i}`}
+                      onClick={() => toggleSlotPanel(i, "district")}
+                    >
+                      <span className="slot-picker__trigger-meta">
+                        <span className="slot-picker__trigger-label">Район</span>
+                        <span className="slot-picker__trigger-value">
+                          {s.district ? districtLabel(s.district) : "Выбрать"}
+                        </span>
+                      </span>
+                      <span className="slot-picker__chev" aria-hidden>
+                        ▾
+                      </span>
+                    </button>
+                    {open === "district" && (
+                      <div
+                        className="slot-picker__panel"
+                        id={`slot-panel-district-${i}`}
+                        role="region"
+                        aria-labelledby={`slot-trigger-district-${i}`}
+                      >
+                        <div className="slot-picker__opts slot-picker__opts--scroll">
+                          {DISTRICTS.map((d) => (
+                            <label key={d.id} className="slot-opt">
+                              <input
+                                type="radio"
+                                name={`district-${i}`}
+                                checked={s.district === d.id}
+                                onChange={() => pickDistrict(i, d.id)}
+                              />
+                              <span>{d.label}</span>
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className={"slot-picker__group" + (open === "extras" ? " is-open" : "")}>
+                    <button
+                      type="button"
+                      className="slot-picker__trigger"
+                      aria-expanded={open === "extras"}
+                      aria-controls={`slot-panel-extras-${i}`}
+                      id={`slot-trigger-extras-${i}`}
+                      onClick={() => toggleSlotPanel(i, "extras")}
+                    >
+                      <span className="slot-picker__trigger-meta">
+                        <span className="slot-picker__trigger-label">Доп. услуги</span>
+                        <span className="slot-picker__trigger-value">{summarizeExtras(s.extras)}</span>
+                      </span>
+                      <span className="slot-picker__chev" aria-hidden>
+                        ▾
+                      </span>
+                    </button>
+                    {open === "extras" && (
+                      <div
+                        className="slot-picker__panel"
+                        id={`slot-panel-extras-${i}`}
+                        role="region"
+                        aria-labelledby={`slot-trigger-extras-${i}`}
+                      >
+                        <div className="slot-picker__opts slot-picker__opts--stack">
+                          {EXTRA_SERVICES.map((ex) => (
+                            <label key={ex.id} className="slot-opt slot-opt--extra">
+                              <input
+                                type="checkbox"
+                                checked={!!s.extras[ex.id]}
+                                onChange={() => toggleExtra(i, ex.id)}
+                              />
+                              <span className="slot-opt__label-text">{ex.label}</span>
+                              <span className="slot-opt__price">+${ex.price}</span>
+                            </label>
+                          ))}
+                        </div>
+                        <button
+                          type="button"
+                          className="slot-picker__done"
+                          onClick={() => closeSlotPanel(i)}
+                        >
+                          Готово
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -279,55 +375,6 @@ const Pricing = () => {
               </div>
             );
           })}
-        </div>
-
-        <div
-          data-reveal
-          style={{
-            marginTop: "40px",
-            background: "var(--surface-raised)",
-            border: "1px solid var(--line)",
-            borderRadius: "var(--r-xl)",
-            padding: "32px",
-            display: "grid",
-            gridTemplateColumns: "1fr 2fr auto",
-            gap: "24px",
-            alignItems: "center",
-          }}
-          className="upsell-strip"
-        >
-          <div>
-            <p className="eyebrow" style={{ color: "var(--m-turquoise)" }}>
-              One-stop service
-            </p>
-            <h3 style={{ fontSize: "1.3rem", marginTop: "8px" }}>Всё в одном чате</h3>
-          </div>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
-            {EXTRA_SERVICES.map((u) => (
-              <span
-                key={u.id}
-                style={{
-                  background: "var(--bg-soft)",
-                  border: "1px solid var(--line)",
-                  borderRadius: "var(--r-pill)",
-                  padding: "10px 16px",
-                  fontSize: "0.88rem",
-                  fontWeight: 500,
-                  display: "inline-flex",
-                  gap: "8px",
-                  alignItems: "center",
-                }}
-              >
-                {u.label}
-                <span style={{ color: "var(--m-pink)", fontFamily: "var(--font-display)", fontWeight: 700 }}>
-                  +${u.price}
-                </span>
-              </span>
-            ))}
-          </div>
-          <a href="#contact" className="btn btn--aqua">
-            Добавить
-          </a>
         </div>
       </div>
 
@@ -365,38 +412,55 @@ const Pricing = () => {
                       .map((e) => `${e.label} (+$${e.price})`)
                       .join(" · ")}
               </div>
-              <div className="booking-modal__summary-total">К оплате: {formatMoney(activeTotal)}</div>
+              <div className="booking-modal__summary-breakdown">
+                {activeBedAdd > 0 || activeExtrasSum > 0 ? (
+                  <>
+                    <div>Базовый тариф: {formatMoney(activeTier.price)}</div>
+                    {activeBedAdd > 0 && (
+                      <div>
+                        Размер кв. ({bedLabel(activeSel.beds)}): +${activeBedAdd}
+                      </div>
+                    )}
+                    {activeExtrasSum > 0 && (
+                      <div>Доп. услуги: {formatMoney(activeExtrasSum)}</div>
+                    )}
+                    <div className="booking-modal__summary-total">Итого: {formatMoney(activeTotal)}</div>
+                  </>
+                ) : (
+                  <div className="booking-modal__summary-total">К оплате: {formatMoney(activeTotal)}</div>
+                )}
+              </div>
             </div>
 
             {modalStep === 1 && (
               <div className="booking-modal__form">
                 <div className="booking-modal__row2">
                   <label className="booking-field">
-                    <span>Имя</span>
+                    <span>First name</span>
                     <input
                       value={contact.firstName}
                       onChange={(e) => setContact((c) => ({ ...c, firstName: e.target.value }))}
                       autoComplete="given-name"
-                      placeholder="Иван"
+                      placeholder="John"
                     />
                   </label>
                   <label className="booking-field">
-                    <span>Фамилия</span>
+                    <span>Last name</span>
                     <input
                       value={contact.lastName}
                       onChange={(e) => setContact((c) => ({ ...c, lastName: e.target.value }))}
                       autoComplete="family-name"
-                      placeholder="Иванов"
+                      placeholder="Garcia"
                     />
                   </label>
                 </div>
                 <label className="booking-field">
-                  <span>Адрес</span>
+                  <span>Address</span>
                   <input
                     value={contact.address}
                     onChange={(e) => setContact((c) => ({ ...c, address: e.target.value }))}
                     autoComplete="street-address"
-                    placeholder="Улица, дом, кв., подъезд"
+                    placeholder="e.g. 1450 Brickell Ave, Unit 3204, Miami, FL 33131"
                   />
                 </label>
                 <label className="booking-field">
@@ -449,13 +513,6 @@ const Pricing = () => {
         </div>
       )}
 
-      <style
-        dangerouslySetInnerHTML={{
-          __html: `
-        @media (max-width: 760px) { .upsell-strip { grid-template-columns: 1fr !important; } }
-      `,
-        }}
-      />
     </section>
   );
 };
